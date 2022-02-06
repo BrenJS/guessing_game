@@ -1,13 +1,22 @@
 use std::io;
 
 fn main() {
+
+    let input = loop {
+        match get_input() {
+            Some(x) => {break x;}
+            None => {}
+        }
+    };
+    println!("Hello, {}", &input);
+}
+
+
+fn get_input() -> Option<u16> {
     let mut input = String::new();
     match io::stdin().read_line(&mut input) {
-        Ok(_) => {
-            let trimmed_input = input.trim();
-            input = trimmed_input.to_string();
-        }
-        Err(e) => {println!("{:?}", e);}
+        Err(_) => {return None},
+        _ => {}
     }
-    println!("Hello, {}!", {input});
+    input.trim().parse::<u16>().ok()
 }
