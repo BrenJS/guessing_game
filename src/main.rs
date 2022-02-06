@@ -8,13 +8,20 @@ fn main() {
     println!("Guess a number between 0 and {}", max_number);
     let mut rng = rand::thread_rng();
     let random_number = rng.gen_range(0..=max_number);
-    println!("{}", random_number);
     print!("Your guess: ");
     io::stdout().flush().unwrap();
     let input: i32 = loop {
         match get_input() {
             Some(x) => {
-                break x;
+                if x < random_number {
+                    println!("Too small, try again!");
+                    continue;
+                } else if x > random_number {
+                    println!("Too large, try again!");
+                    continue;
+                } else {
+                    break x;
+                }
             }
             None => {
                 println!(
@@ -26,7 +33,7 @@ fn main() {
             }
         }
     };
-    println!("Hello, {}", &input);
+    println!("Congratulations, {} is right!", &input);
 }
 
 fn get_input<T: FromStr>() -> Option<T> {
